@@ -19,5 +19,15 @@ public class Calculator {
         return result = n1 / n2;
     }
 
+    public void longTaskOperation(){
+        try{
+            Thread.sleep(1000);
+        }catch (Exception e){
+
+        }
+    }
+
+
+
 
 }

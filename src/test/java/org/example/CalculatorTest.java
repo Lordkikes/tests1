@@ -1,6 +1,12 @@
 package org.example;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.time.Duration;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,6 +14,13 @@ class CalculatorTest {
 
     private Calculator calculator;
     private Calculator calculatorNull;
+    private static Calculator calculatorStatic;
+
+    @BeforeAll
+    public static void beforeAllTests(){
+        calculatorStatic = new Calculator();
+        System.out.println("@BeforeAll -> beforeAllTests()");
+    }
 
     @BeforeEach
     public void setUp(){
@@ -21,8 +34,15 @@ class CalculatorTest {
         System.out.println("@AfterEach -> tearDown()");
     }
 
+    @AfterAll
+    public static void afterAllTests(){
+        calculatorStatic = new Calculator();
+        System.out.println("@AfterAll -> afterAllTests()");
+    }
+
     @Test
     public void calculatorNotNullTest(){
+        assertNotNull(calculatorStatic, "Calculator debe ser not null");
         assertNotNull(calculator, "Calculator debe ser not null");
         System.out.println("@Test -> calculatorNotNullTest()");
     }
@@ -104,8 +124,32 @@ class CalculatorTest {
         public void add_Zero_Tetst(){
             assertEquals(0, calculator.sumar(0,0));
         }
-
-
     }
+
+    @Disabled
+    @ParameterizedTest(name = "{index} => a={0}, b={1}, sum={2}")
+    @MethodSource("addProviderData")
+    public void addParameterizedTes(int a, int b, int sum ){
+        assertEquals(sum, calculator.sumar(a, b));
+    }
+
+    private static Stream<Arguments> addProviderData(){
+        return Stream.of(
+                Arguments.of(6,2,8),
+                Arguments.of(-6,-2,-8),
+                Arguments.of(6,-2,4),
+                Arguments.of(-6,2,-4),
+                Arguments.of(6,0,6)
+        );
+    }
+
+    @Test
+    void timeOut_Test(){
+        assertTimeout(Duration.ofMillis(2000), ()->{
+            calculator.longTaskOperation();
+        });
+    }
+
+
 
 }
