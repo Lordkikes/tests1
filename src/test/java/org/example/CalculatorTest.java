@@ -1,10 +1,6 @@
 package org.example;
 
-import com.sun.org.apache.xpath.internal.operations.Equals;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,6 +82,29 @@ class CalculatorTest {
     @Test
     void divicion_InValidInput_ExpectedExceptionTest() {
         assertThrows(ArithmeticException.class, ()->calculator.divicionCero(2,0), "No se puede dividir por cero");
+    }
+
+    @Test
+    @DisplayName("Metodo dividir -> Funciona")
+    void divicion_ValidInput_ValidResultExpected_Name_Test() {
+        assertEquals(2, calculator.divicion(6,3));
+    }
+
+    @Nested
+    class AddTest{
+        @Test
+        public void add_Positive_Tetst(){
+            assertEquals(30, calculator.sumar(20,10));
+        }
+        @Test
+        public void add_Negative_Tetst(){
+            assertEquals(-30, calculator.sumar(-20,-10));
+        }
+        @Test
+        public void add_Zero_Tetst(){
+            assertEquals(0, calculator.sumar(0,0));
+        }
+
 
     }
 
