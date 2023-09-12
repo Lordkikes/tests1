@@ -10,6 +10,7 @@ import org.mockito.stubbing.Answer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 class AddTest {
@@ -62,6 +63,40 @@ class AddTest {
 
         when(validNumber.doubleToInt(7.7)).thenAnswer(answer);
         assertEquals(14, add.addInt(7.7));
+    }
+
+
+    //Arrange
+    //Act
+    //Assert
+    @Test
+    void patterTest(){
+        //Arrange
+        when(validNumber.check(4)).thenReturn(true);
+        when(validNumber.check(5)).thenReturn(true);
+
+        //Act
+        int result = add.add(4, 5);
+
+        //Assert
+        assertEquals(9, result);
+
+    }
+
+    //Given
+    //When
+    //Then
+    @Test
+    void patterBDDTest(){
+        //Given
+        given(validNumber.check(4)).willReturn(true);
+        given(validNumber.check(5)).willReturn(true);
+
+        //When
+        int result = add.add(4, 5);
+
+        //Then
+        assertEquals(9, result);
 
     }
 
