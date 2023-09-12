@@ -2,9 +2,7 @@ package org.example.mockito;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -21,9 +19,10 @@ class AddTest {
     private Add add;
     @Mock
     private ValidNumber validNumber;
-
     @Mock
     private Print print;
+    @Captor
+    private ArgumentCaptor<Integer> captor;
 
     @BeforeEach
     public void setUp(){
@@ -126,6 +125,18 @@ class AddTest {
         //Then
         //verify(validNumber).check(4);
         verify(validNumber, times(2)).check(4);
+    }
+
+    @Test
+    void captorTest(){
+        //Given
+        given(validNumber.check(4)).willReturn(true);
+        given(validNumber.check(5)).willReturn(true);
+        //When
+        add.addPrint(4,5);
+        //Then
+        verify(print).showMessage(captor.capture());
+        assertEquals(captor.getValue().intValue(), 9);
     }
 
 
