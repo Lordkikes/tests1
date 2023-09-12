@@ -10,8 +10,10 @@ import org.mockito.stubbing.Answer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class AddTest {
 
@@ -19,6 +21,10 @@ class AddTest {
     private Add add;
     @Mock
     private ValidNumber validNumber;
+
+    @Mock
+    private Print print;
+
     @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
@@ -97,7 +103,29 @@ class AddTest {
 
         //Then
         assertEquals(9, result);
+    }
 
+    @Test
+    void argumentMatcherTest(){
+        //Given
+        given(validNumber.check(anyInt())).willReturn(true);
+
+        //When
+        int result = add.add(4, 5);
+
+        //Then
+        assertEquals(9, result);
+    }
+
+    @Test
+    void addPrinTest(){
+        //Given
+        given(validNumber.check(4)).willReturn(true);
+        //When
+        add.addPrint(4, 4);
+        //Then
+        //verify(validNumber).check(4);
+        verify(validNumber, times(2)).check(4);
     }
 
 
