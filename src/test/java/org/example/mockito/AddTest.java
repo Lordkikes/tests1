@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -47,6 +49,20 @@ class AddTest {
 
         when(validNumber.check(3)).thenCallRealMethod();
         assertEquals(false, validNumber.check("3"));
+    }
+
+    @Test
+    void addDoubleToIntThenAnswerTest(){
+        Answer<Integer> answer = new Answer<Integer>() {
+            @Override
+            public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return 7;
+            }
+        };
+
+        when(validNumber.doubleToInt(7.7)).thenAnswer(answer);
+        assertEquals(14, add.addInt(7.7));
+
     }
 
 

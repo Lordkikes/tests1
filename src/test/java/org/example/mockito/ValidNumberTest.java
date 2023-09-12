@@ -48,4 +48,14 @@ class ValidNumberTest {
         assertThrows(ArithmeticException.class, ()-> validNumber.checkZero(0));
     }
 
+    @Test
+    void doubleToIntTest(){
+        assertEquals(9, validNumber.doubleToInt(9.999));
+    }
+
+    @Test
+    void doubleToIntErrorTest(){
+        assertEquals(0, validNumber.doubleToInt("9.999"));
+    }
+
 }
