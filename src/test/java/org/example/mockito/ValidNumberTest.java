@@ -1,0 +1,38 @@
+package org.example.mockito;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ValidNumberTest {
+
+    private ValidNumber validNumber;
+
+    @BeforeEach
+    public void setUp(){
+        validNumber = new ValidNumber();
+    }
+
+    @AfterEach
+    public void tearDown(){
+        validNumber = null;
+    }
+
+    @Test
+    void checkTest(){
+        assertTrue(validNumber.check(5));
+    }
+
+    @Test
+    void checkTestNegative(){
+        assertFalse(validNumber.check(-5));
+    }
+
+    @Test
+    void checkStringTest(){
+        assertFalse(validNumber.check("5"));
+    }
+
+}
